@@ -12,6 +12,7 @@
         <module>eureka-server</module>
         <module>eureka-client01</module>
         <module>eureka-client02</module>
+        <module>eureka-gateway</module>
     </modules>
     <name>springcloud-base</name>
     <description>spring cloud 基础工程</description>
