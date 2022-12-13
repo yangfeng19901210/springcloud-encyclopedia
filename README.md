@@ -447,10 +447,119 @@ public class UserController {
 
 ```
 
-步骤四：
+步骤四：eureka-client01的pom文件中添加openFeign依赖
 
-步骤五：
+```java
+ <dependency>
+     <groupId>org.springframework.cloud</groupId>
+     <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
 
-步骤六：
+步骤五：eureka-client01包接口中添加feign包并添加UserRemoteService接口
 
-步骤七：
+```java
+package com.yf.feign;
+
+import com.yf.dto.UserDto;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+/**
+ * @projectName: springcloud-base
+ * @package: com.feign
+ * @className: UserRemoteService
+ * @author: yangfeng
+ * @description: 用户服务service
+ * @date: 2022/12/13 14:58
+ * @version: 1.0
+ */
+@FeignClient("eureka-client02")
+public interface UserRemoteService {
+    @GetMapping("/user/getUserById")
+    public UserDto getUserById(@RequestParam("id")Integer id);
+}
+```
+
+步骤六：添加OrderService，在OrderService中调用UserRemoteService查询用户信息
+
+```
+package com.yf.service;
+
+import com.yf.dto.OrderQueryDto;
+import com.yf.dto.UserDto;
+import com.yf.feign.UserRemoteService;
+import com.yf.vo.OrderVo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+
+/**
+ * @projectName: springcloud-base
+ * @package: com.yf.service
+ * @className: OrderService
+ * @author: yangfeng
+ * @description: TODO
+ * @date: 2022/12/13 15:17
+ * @version: 1.0
+ */
+@Service
+public class OrderService {
+
+    @Resource
+    private UserRemoteService userRemoteService;
+
+    public OrderVo getOrderDetail(OrderQueryDto queryDto){
+        UserDto userDto = userRemoteService.getUserById(queryDto.getUserId());
+        OrderVo orderVo = new OrderVo();
+        BeanUtils.copyProperties(queryDto,orderVo);
+        orderVo.setName(userDto.getName());
+        return orderVo;
+
+
+    }
+}
+```
+
+步骤七：添加OrderController
+
+```
+package com.yf.controller;
+
+import com.yf.dto.OrderQueryDto;
+import com.yf.service.OrderService;
+import com.yf.vo.OrderVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @projectName: springcloud-base
+ * @package: com.yf.controller
+ * @className: OrderController
+ * @author: yangfeng
+ * @description: TODO
+ * @date: 2022/12/13 15:25
+ * @version: 1.0
+ */
+@RestController
+@RequestMapping("/order")
+public class OrderController {
+    @Autowired
+    private OrderService orderService;
+    @GetMapping("getOderDetail")
+    public OrderVo getOrderDetail(@RequestBody OrderQueryDto queryDto){
+        return orderService.getOrderDetail(queryDto);
+    }
+
+}
+```
+
+步骤八：使用postman测试，如果能返回订单以及用户的信息说明调用成功
+
+![image-20221213163551883](README.assets/image-20221213163551883.png)
