@@ -1,6 +1,8 @@
 # springcloud-encyclopedia
 spring cloud百科全书 
 
+![image-20221213175412309](README.assets/image-20221213175412309.png)
+
 ## 1.Eureka 应用搭建
 
 ### 1.1 Eureka server 注册中心搭建
