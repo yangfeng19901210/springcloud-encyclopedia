@@ -1,0 +1,11 @@
+eureka:
+  client:
+    # 因为当前项目为服务，不需要向服务注册自己，默认为true
+    register-with-eureka: false
+    # 因为当前为非集群版eureka，所以不需要同步其他节点数据
+    fetch-registry: false
+# 当server.port配置不是8761时需要配置内容
+    service-url:
+      defaultZone: http://localhost:${server.port}/eureka/
+server:
+  port: 7001
