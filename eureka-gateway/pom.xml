@@ -26,6 +26,32 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+        <!--
+          断路器依赖jar，轻量级
+          spring cloud 常用的短路器有Resilience4J、Sentinel, or Hystrix等
+          断路器是设置在client端，即请求发出的一端
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--
+        消费者驱动的微服务契约测试套件：
+        从消费者实现的业务角度出发，驱动出契约，再基于契约，对提供者验证的一种测试方式
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 

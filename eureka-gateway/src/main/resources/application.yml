@@ -1,0 +1,16 @@
+# 设置网管端口，一般设置为9999，可以根据自己需求设置
+server:
+  port: 9999
+#设置网管名称
+spring:
+  application:
+    name: spcloud-gateway
+#设置注册中心地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
