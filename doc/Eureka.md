@@ -559,4 +559,4 @@ public class OrderController {
 
 步骤八：使用postman测试，如果能返回订单以及用户的信息说明调用成功
 
-![image-20221213163551883](README.assets/image-20221213163551883.png)
+![image-20221213163551883](../README.assets/image-20221213163551883.png)
