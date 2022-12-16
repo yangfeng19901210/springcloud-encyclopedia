@@ -7,13 +7,24 @@ spring:
     name: spcloud-gateway
   cloud:
     gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
       routes:
         - id: gateway-to-baidu
-          uri: http://www.baidu.com
+          uri: https://www.baidu.com
           predicates:
-          - Path=/baidu11111
+          - Path=/baidu
           filters:
             # StripPrefix：去除原始请求路径中的前1级路径，即/gateway
+            - StripPrefix=1
+        - id: eureka-client01
+          uri: lb://eureka-client01
+          predicates:
+          - Path=/client01/**
+          filters:
+            # StripPrefix：去除原始请求路径中的前1级路径，即/client01
             - StripPrefix=1
 #设置注册中心地址
 eureka:

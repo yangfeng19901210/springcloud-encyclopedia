@@ -115,3 +115,24 @@ public class RouteConfig {
 - Predicate(断言)：参考的是Java8的java.util.function.Predicate，开发人员可以匹配HTTP请求中的所有内容(例如请求头或请求参数),如果请求与断言相匹配则进行路由；
 - Filter(过滤)：指的是Spring框架中GatewayFilter的实例,使用过滤器,可以在请求被路由前或者之后对请求进行修改。
 
+### 4.2动态路由
+
+需求描述：基于微服务架构的应用包含很多微服务，动态路由要实现的就是匹配指定的微服务请求路径所有的请求都会转发到该微服务对应的路径。
+
+- 匹配 /order-service/**,即访问localhost:{网关端口}/order-service/xxx,则会转发到localhost:{order-service服务对应的端口}/xxx
+- 匹配 /user-service/**,即访问localhost:{网关端口}/user-service/xxx,则会转发到localhost:{user-service服务对应的端口}/xxx
+
+#### 4.2.1动态路由配置
+
+```
+- id: eureka-client01
+  uri: lb://eureka-client01
+  predicates:
+  - Path=/client01/**
+  filters:
+    # StripPrefix：去除原始请求路径中的前1级路径，即/client01
+   - StripPrefix=1
+```
+
+
+

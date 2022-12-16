@@ -27,5 +27,9 @@ public class OrderController {
     public OrderVo getOrderDetail(@RequestBody OrderQueryDto queryDto){
         return orderService.getOrderDetail(queryDto);
     }
+    @GetMapping("/getOrder")
+    public String getOrder(){
+        return "获取订单成功";
+    }
 
 }
