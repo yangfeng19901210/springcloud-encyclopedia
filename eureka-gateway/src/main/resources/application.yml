@@ -11,7 +11,7 @@ spring:
         - id: gateway-to-baidu
           uri: http://www.baidu.com
           predicates:
-          - Path=/baidu
+          - Path=/baidu11111
           filters:
             # StripPrefix：去除原始请求路径中的前1级路径，即/gateway
             - StripPrefix=1

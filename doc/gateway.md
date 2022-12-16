@@ -14,7 +14,12 @@ SpringCloud Gateway 是 Spring Cloud 的一个全新项目，该项目是基于 
 
 # 3.how to do？
 
-## 3.1项目框架搭建
+## 3.1需求
+
+- 请求 /baidu 时转发到百度页面
+- 请求/taobao 时转发到淘宝页面
+
+## 3.2项目框架搭建
 
 1. 访问https://start.spring.io/   Dependencies 添加gateway、resilience4j 、contract stub runner，点击“GENERATE”
 
@@ -51,6 +56,57 @@ SpringCloud Gateway 是 Spring Cloud 的一个全新项目，该项目是基于 
        org.springframework.cloud.gateway: debug
    ```
 
-4. 添加启动类
+4. 添加启动类并启动，在浏览器输入：localhost:9999/baidu,能成功跳转到百度页面说明路由配置成功
 
-5. 测试
+   ![image-20221216104234047](gateway.assets/image-20221216104234047.png)
+
+## 3.2通过代码配置gateway路由
+
+在启动类所在的包结构下面添加RouteConfig配置类,并在该类中构建RouteLocator，添加路由转发的规则
+
+```java
+package com.yf.config;
+
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * @projectName: springcloud-base
+ * @package: com.yf.config
+ * @className: RouteConfig
+ * @author: yangfeng
+ * @description: TODO
+ * @date: 2022/12/16 10:26
+ * @version: 1.0
+ */
+@Configuration
+public class RouteConfig {
+
+    @Bean
+    public RouteLocator myRoutes(RouteLocatorBuilder builder) {
+        RouteLocatorBuilder.Builder routes = builder.routes();
+        routes.route(p -> p.path("/taobao").filters(f ->f.stripPrefix(1)).uri("https://www.taobao.com"));
+        routes.route(p -> p.path("/baidu").filters(f ->f.stripPrefix(1)).uri("https://www.baidu.com"));
+        return routes.build();
+
+    }
+}
+```
+
+## 3.3启动测试
+
+1. 在浏览器输入localhost:9999/baidu
+
+   ![image-20221216105007097](gateway.assets/image-20221216105007097.png)
+
+2. 在浏览器输入localhost:9999/taobao
+
+   ![image-20221216105117910](gateway.assets/image-20221216105117910.png)
+
+如上，说明spring cloud gateway基础的环境已经搭建成功。
+
+## 4.spring cloud gateway 核心知识讲解
+
+## 4.1 
